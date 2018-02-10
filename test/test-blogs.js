@@ -23,7 +23,7 @@ function seedBlogData() {
 }
 
 
-function generateRestaurantData() {
+function generateBlogData() {
   return {
     author: {
         firstName: faker.name.firstName(),
@@ -60,7 +60,7 @@ describe('Blogs API Resource', function(){
     describe('GET Endpoint', function(){
         it('should return all existing restaurants', function() {
             let res;
-            returnchai.request(app)
+            return chai.request(app)
             .get('/posts')
             .then(function(_res){
                 res = _res;
@@ -96,6 +96,28 @@ describe('Blogs API Resource', function(){
                 expect(resBlog.content).to.equal(post.content);
                 expect(resBlog.created).to.equal(post.created);
             });
+        });
+    });
+
+    describe('POST endpoint', function() {
+        const newBlog = generateBlogData(); 
+        return chai.request(app)
+        .post('/posts')
+        .send(newBlog)
+        .then(function(res){
+            expect(res).to.have.status(201);
+            expect(res).to.be.json;
+            expect(res.body).to.be.a('object');
+            expect(res.body).to.include.keys('id', 'author', 'title', 'content', 'created');
+            expect(res.body.id).to.not.be.null
+            return BlogPost.findById(res.body.id);
+        })
+        .then(function (post){
+            expect(post.author.firstName).to.equal(newBlog.author.firstName);
+            expect(post.author.lastName).to.equal(newBlog.author.lastName);
+            expect(post.title).to.equal(newBlog.title);
+            expect(post.content).to.equal(newBlog.content);
+            expect(post.created).to.equal(newBlog.created);
         });
     });
 
