@@ -65,17 +65,17 @@ describe('Blogs API Resource', function(){
             .then(function(_res){
                 res = _res;
                 expect(res).to.have.status(200);
-                expect(res.body.posts)to.have.length.of.at.least(1);
+                expect(res.body.posts).to.have.length.of.at.least(1);
                 return BlogPost.count();
             })
             .then(function(count) {
-                expect(res.body.posts)to.have.length.of(count);
+                expect(res.body.posts).to.have.length.of(count);
             });
         });
 
         it('should return blogs with right fields', function(){
             let resBlog;
-            returnchai.request(app)
+            return chai.request(app)
             .get('/posts')
             .then(function(res){
                 expect(res).to.have.status(200);
@@ -120,5 +120,33 @@ describe('Blogs API Resource', function(){
             expect(post.created).to.equal(newBlog.created);
         });
     });
+
+    describe('PUT endpoint', function() {
+        it('should update fields you send over', function() {
+            const updateData = {
+                title: 'foo',
+                content: 'bar'
+            };
+
+            return BlogPost
+            .findOne()
+            .then(function(post){
+                updateData.id = post.id;
+                return chai.request(app)
+            .put(`/posts/${post.id}`)
+            .send(updateData);
+            })
+            .then(function(res){
+                expect(res).to.have.status(204);
+                return BlogPost.findById(updateData.id);
+            })
+            .then(function(post){
+                expect(post.title).to.equal(updateData.title);
+                expect(post.content).to.equal(updateData.content);
+            });
+        });
+    });
+
+    
 
 });
