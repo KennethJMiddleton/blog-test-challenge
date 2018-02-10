@@ -64,12 +64,13 @@ describe('Blogs API Resource', function(){
             .get('/posts')
             .then(function(_res){
                 res = _res;
+                //console.log(res.body);
                 expect(res).to.have.status(200);
-                expect(res.body.blogposts).to.have.length.of.at.least(1);
+                expect(res.body).to.have.lengthOf.at.least(1);
                 return BlogPost.count();
             })
             .then(function(count) {
-                expect(res.body.posts).to.have.length.of(count);
+                expect(res.body).to.have.lengthOf(count);
             });
         });
 
@@ -80,21 +81,21 @@ describe('Blogs API Resource', function(){
             .then(function(res){
                 expect(res).to.have.status(200);
                 expect(res).to.be.json;
-                expect(res.body.posts).to.be.a('array');
-                expect(res.body.posts).to.have.length.of.at.least(1);
-                res.body.posts.forEach(function(post) {
+                expect(res.body).to.be.a('array');
+                expect(res.body).to.have.length.of.at.least(1);
+                res.body.forEach(function(post) {
                     expect(post).to.be.a('object');
                     expect(post).to.include.keys('id', 'author', 'title', 'content', 'created');
                 });
-                resBlog = res.body.posts[0];
+                resBlog = res.body[0];
                 return BlogPost.findById(resBlog.id);
             })
             .then(function(post){
+                console.log(resBlog);
                 expect(resBlog.id).to.equal(post.id);
-                expect(resBlog.author).to.equal(post.author);
+                expect(resBlog.author).to.equal(post.author.firstName + " " + post.author.lastName);
                 expect(resBlog.title).to.equal(post.title);
                 expect(resBlog.content).to.equal(post.content);
-                expect(resBlog.created).to.equal(post.created);
             });
         });
     });
@@ -118,7 +119,6 @@ describe('Blogs API Resource', function(){
                 expect(post.author.lastName).to.equal(newBlog.author.lastName);
                 expect(post.title).to.equal(newBlog.title);
                 expect(post.content).to.equal(newBlog.content);
-                expect(post.created).to.equal(newBlog.created);
             });
         });
     });
