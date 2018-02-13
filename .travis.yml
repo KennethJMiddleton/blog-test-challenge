@@ -1,0 +1,11 @@
+language: node_js
+node_js: node
+services:
+- mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: rVPhb3w7GhT6veu2lOasJaCgK5Tc7wtp+wIBFQ9C5XGLCHy82rJmeqvhcBdLpk5Q+tPzYTVKxqnA5Sgo2lrvAZBHtWyddyXqb+sxRz71rD6yxisIRiFXgsOUuZp73mjWW1jV7fLpT82TPqfsJQN8rJ2N/IDTFtIKpYQU6JSGQQ4TcXSO89bSkoQIRED1FFPc+djnBiLFoiVmvN3KUumP37zOW6LbtcN79LXm2utSCHrAd5iutm+w8/zVkukNqQYBczcs1XOwY4g7BI7qbyUt5wor2r+KiNAE1zoF6BN62fpcSdPdu0fUmVUePPJvn4tBHRla+sPJKiF0pMg+omSatIKqAWKTZrHr2djCFAj7cGPq+mYl3dKMo8FGjzTXxYDaN2o3tKPzKZfIpAoiRvbjdAUDxZyr8zZfRBdXfY9L/8vNUNYpBtV9SKA2cfpUgQbixYVi62trNaLiXZbmTJduG82UlbCsr405zNVJl3yE47qi1P1Q1Rcm36Ry9kCU6HgWKfk5LiuE8JQbnIbLPXwNJWT+Wq39H6YBHlJ7gpLQ3gSPPZsjbxhvBvQfq9WlLDA+Eyg0Jo8XG3FOLnBcxAwVpwOk768dKgX9M6AwX/heyXzcIvZAo8wfxwl10Ocqg/J0LU0JVGw9sHKdmfrygEaPxeLPS82GpNurNXaJy5T3Xoc=
+  app: damp-waters-53126
+  on:
+    repo: KennethJMiddleton/blog-test-challenge
